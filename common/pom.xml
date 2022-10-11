@@ -33,6 +33,11 @@
             <artifactId>redisson</artifactId>
             <version>3.16.2</version>
         </dependency>
+        <dependency>
+            <groupId>net.smartbridge</groupId>
+            <artifactId>api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

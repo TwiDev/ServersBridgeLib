@@ -1,4 +1,4 @@
 package net.smartbridge.api.servers;
 
-public interface SmartServer {
+public interface ISmartServerManager {
 }

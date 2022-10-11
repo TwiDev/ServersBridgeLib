@@ -1,17 +1,18 @@
-package net.smartservers.common;
+package net.smartbridge.api.bridge;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum SmartPlatformType {
+public enum ServerSide {
 
     BUNGEECORD("BungeeCord"),
     SPIGOT("Spigot"),
-    SPONGE("Sponge"),
     STANDALONE("Standalone"),
-    VELOCITY("Velocity");
+    // Bridge modules
+    MODULE("CustomModule");
 
     private final String platformName;
+
 }

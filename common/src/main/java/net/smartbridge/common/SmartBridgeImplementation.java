@@ -6,15 +6,13 @@ import net.smartbridge.api.servers.ISmartServerManager;
 import net.smartbridge.api.util.LibInfo;
 import net.smartbridge.common.servers.SmartServerManager;
 
-public class SmartBridgeImplementation implements SmartBridgeAPI {
+public class SmartBridgeImplementation extends SmartBridgeAPI {
 
     // Managers
     private final SmartServerManager smartServerManager;
 
-    private final SmartBridgePlugin parent;
-
     public SmartBridgeImplementation(SmartBridgePlugin smartBridgePlugin) {
-        this.parent = smartBridgePlugin;
+        super(smartBridgePlugin);
 
         this.smartServerManager = new SmartServerManager();
     }
@@ -27,10 +25,5 @@ public class SmartBridgeImplementation implements SmartBridgeAPI {
     @Override
     public LibInfo getApiInfo() {
         return null;
-    }
-
-    @Override
-    public SmartBridgePlugin getPlugin() {
-        return parent;
     }
 }

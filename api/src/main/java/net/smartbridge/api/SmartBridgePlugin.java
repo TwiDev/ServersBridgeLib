@@ -1,12 +1,15 @@
 package net.smartbridge.api;
 
 import net.smartbridge.api.bridge.ServerSide;
+import net.smartbridge.api.util.ServerIP;
 
 public interface SmartBridgePlugin {
-
-    SmartBridgeAPI getApi();
 
     ServerSide getPluginSide();
 
     String getServerName();
+
+    Object getPlugin();
+
+    ServerIP getServerIP();
 }

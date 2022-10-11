@@ -3,12 +3,27 @@ package net.smartbridge.api;
 import net.smartbridge.api.servers.ISmartServerManager;
 import net.smartbridge.api.util.LibInfo;
 
-public interface SmartBridgeAPI {
+public abstract class SmartBridgeAPI {
 
-    ISmartServerManager getServerManager();
+    private static SmartBridgeAPI instance;
 
-    LibInfo getApiInfo();
+    private final SmartBridgePlugin plugin;
 
-    SmartBridgePlugin getPlugin();
+    public SmartBridgeAPI(SmartBridgePlugin plugin) {
+        instance = this;
 
+        this.plugin = plugin;
+    }
+
+    public abstract ISmartServerManager getServerManager();
+
+    public abstract LibInfo getApiInfo();
+
+    public SmartBridgePlugin getPlugin() {
+        return plugin;
+    }
+
+    public static SmartBridgeAPI getInstance() {
+        return instance;
+    }
 }

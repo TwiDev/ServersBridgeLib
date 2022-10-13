@@ -18,6 +18,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Prepare build Maven
-        run: Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process -Force
+        run: Set-ExecutionPolicy -Scope Process $policy
       - name: Build with Maven
         run: mvn -B package --file pom.xml

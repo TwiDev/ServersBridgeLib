@@ -1,5 +1,6 @@
 package net.smartbridge.api;
 
+import net.smartbridge.api.exceptions.BridgeException;
 import net.smartbridge.api.servers.ISmartServerManager;
 import net.smartbridge.api.util.LibInfo;
 
@@ -14,6 +15,8 @@ public abstract class SmartBridgeAPI {
 
         this.plugin = plugin;
     }
+
+    public abstract void initConnections() throws BridgeException;
 
     public abstract ISmartServerManager getServerManager();
 

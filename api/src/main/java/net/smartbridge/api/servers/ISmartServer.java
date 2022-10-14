@@ -23,4 +23,5 @@ public interface ISmartServer {
 
     long getOnlinePlayers();
 
+    boolean isLoaded();
 }

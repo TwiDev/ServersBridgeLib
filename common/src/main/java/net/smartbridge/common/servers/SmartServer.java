@@ -92,6 +92,11 @@ public class SmartServer implements ISmartServer {
         return serverModel.getLong(ServersKey.PLAYERS);
     }
 
+    @Override
+    public boolean isLoaded() {
+        return serverModel.isExists();
+    }
+
     @RedissonKeys(name = "smartserver")
     private enum ServersKey {
 

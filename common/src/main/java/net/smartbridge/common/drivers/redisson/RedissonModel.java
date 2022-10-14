@@ -27,6 +27,9 @@ public class RedissonModel<E> {
     @Getter
     private String name;
 
+    @Getter
+    private boolean exists = true;
+
     public RedissonModel(final Class<E> redisKey, final UUID uuid, final RedissonClient driver) {
         this(redisKey, uuid, null, driver);
     }
@@ -44,6 +47,7 @@ public class RedissonModel<E> {
                 this.name = name + PATH_SEPARATOR;
             }
         } else {
+            this.exists = false;
             throw new NullPointerException("Your redis enum don't have redis annotation");
         }
 

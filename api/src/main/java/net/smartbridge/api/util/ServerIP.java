@@ -15,6 +15,14 @@ public class ServerIP {
         return host;
     }
 
+    public static ServerIP parse(String s) {
+        String[] elements = s.split(":");
+
+        return new ServerIP(elements[0], Integer.parseInt(
+                elements[1]
+        ));
+    }
+
     public int getPort() {
         return port;
     }

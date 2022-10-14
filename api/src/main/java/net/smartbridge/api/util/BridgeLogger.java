@@ -1,4 +1,4 @@
-package net.smartbridge.common.util;
+package net.smartbridge.api.util;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -1,6 +1,7 @@
 package net.smartbridge.common.servers;
 
 import com.google.gson.Gson;
+import lombok.Getter;
 import net.smartbridge.api.servers.ISmartServer;
 import net.smartbridge.api.servers.ServerType;
 import net.smartbridge.api.util.ServerIP;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 public class SmartServer implements ISmartServer {
 
+    @Getter
     private static final String serversMap = "smartservers/map";
 
     private final RedissonModel<ServersKey> serverModel;
@@ -41,6 +43,14 @@ public class SmartServer implements ISmartServer {
                 put(ServersKey.IP, ServerType.UNKNOWN.toString());
             }}, redissonClient);
         }
+    }
+
+    public SmartServer(UUID uuid) {
+        this.uuid = uuid;
+
+        RedissonClient redissonClient = SmartBridgeImplementation.getInstance().getRedissonDriver().getConnection();
+
+        this.serverModel = new RedissonModel<>(ServersKey.class, uuid.toString(), redissonClient);
     }
 
     public RedissonModel<ServersKey> getServerModel() {

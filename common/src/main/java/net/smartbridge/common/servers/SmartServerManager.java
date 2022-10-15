@@ -3,6 +3,7 @@ package net.smartbridge.common.servers;
 import net.smartbridge.api.servers.ISmartServer;
 import net.smartbridge.api.servers.ISmartServerManager;
 import net.smartbridge.api.servers.ServerType;
+import net.smartbridge.common.SmartBridgeImplementation;
 
 import java.util.UUID;
 
@@ -10,12 +11,16 @@ public class SmartServerManager implements ISmartServerManager {
 
     @Override
     public ISmartServer getServer(String name) {
-        return null;
+        return new SmartServer(name);
     }
 
     @Override
     public ISmartServer getServer(UUID uuid) {
-        return null;
+        if(!isServerExists(uuid)) {
+            return null;
+        }
+
+        return new SmartServer(uuid);
     }
 
     @Override
@@ -25,21 +30,21 @@ public class SmartServerManager implements ISmartServerManager {
 
     @Override
     public ISmartServer createServerByName(ServerType serverType, String name) {
-        return null;
+        return new SmartServer(name);
     }
 
     @Override
     public void delServer(ISmartServer iSmartServer) {
-
+        iSmartServer.disconnectServer();
     }
 
     @Override
     public boolean isServerExists(String name) {
-        return false;
+        return SmartBridgeImplementation.getInstance().getRedissonDriver().getConnection().getMap(SmartServer.getServersMap()).containsKey(name);
     }
 
     @Override
     public boolean isServerExists(UUID uuid) {
-        return false;
+        return SmartBridgeImplementation.getInstance().getRedissonDriver().getConnection().getMap(SmartServer.getServersMap()).containsValue(uuid.toString());
     }
 }

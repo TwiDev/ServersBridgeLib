@@ -1,6 +1,6 @@
 name: SmartServersBridge
-version: 1.0.0.0
 author: TwiDev
+version: 1.0.0
 prefix: SmartServersBridge
 
-main: net.smartbridge.bungeecord.CoreProxy
+main: net.smartbridge.spigot.CoreSpigot

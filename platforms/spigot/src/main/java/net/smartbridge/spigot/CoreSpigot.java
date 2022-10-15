@@ -1,19 +1,17 @@
-package net.smartbridge.bungeecord;
+package net.smartbridge.spigot;
 
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.plugin.PluginManager;
 import net.smartbridge.api.SmartBridgePlugin;
 import net.smartbridge.api.bridge.ServerSide;
 import net.smartbridge.api.drivers.RedissonDriverConfig;
 import net.smartbridge.api.exceptions.BridgeException;
 import net.smartbridge.api.exceptions.DatabaseException;
 import net.smartbridge.api.util.ServerIP;
-import net.smartbridge.bungeecord.listeners.servers.ServersListeners;
 import net.smartbridge.common.SmartBridgeImplementation;
 import net.smartbridge.common.config.DatabasesConfig;
 import net.smartbridge.common.util.ToolsFile;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class CoreProxy extends Plugin implements SmartBridgePlugin {
+public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
 
     private SmartBridgeImplementation smartBridgeImplementation;
 
@@ -28,15 +26,7 @@ public class CoreProxy extends Plugin implements SmartBridgePlugin {
             throw new RuntimeException(e);
         }
 
-        PluginManager pluginManager = getProxy().getPluginManager();
-        pluginManager.registerListener(this, new ServersListeners());
-
         super.onEnable();
-    }
-
-    @Override
-    public void onDisable() {
-        super.onDisable();
     }
 
     @Override
@@ -59,12 +49,12 @@ public class CoreProxy extends Plugin implements SmartBridgePlugin {
 
     @Override
     public ServerSide getPluginSide() {
-        return ServerSide.BUNGEECORD;
+        return ServerSide.SPIGOT;
     }
 
     @Override
     public String getServerName() {
-        return "unknown-bungeecord";
+        return this.getServer().getServerName();
     }
 
     @Override
@@ -73,7 +63,6 @@ public class CoreProxy extends Plugin implements SmartBridgePlugin {
     }
 
     @Override
-    @Deprecated
     public ServerIP getServerIP() {
         return serverIP;
     }
@@ -81,10 +70,6 @@ public class CoreProxy extends Plugin implements SmartBridgePlugin {
     @Override
     public RedissonDriverConfig getRedissonConfig() {
         return databasesConfig.getRedis();
-    }
-
-    public ClassLoader getClassLoader() {
-        return this.getClass().getClassLoader();
     }
 
     public SmartBridgeImplementation getSmartBridgeImplementation() {

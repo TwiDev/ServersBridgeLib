@@ -1,18 +1,16 @@
 package net.smartbridge.common.config;
 
+import lombok.Getter;
 import net.smartbridge.api.bridge.ServerSide;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @ConfigInfo(fileName = "group.json", serverSide = ServerSide.BUNGEECORD)
 public class GroupConfig extends Config<GroupConfig> {
 
     List<GroupObject> groups = new ArrayList<>();
-
-    public List<GroupObject> getGroups() {
-        return groups;
-    }
 
     public static class GroupObject {
 

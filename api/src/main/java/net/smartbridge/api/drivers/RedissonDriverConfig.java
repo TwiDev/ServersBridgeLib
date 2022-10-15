@@ -1,6 +1,6 @@
 package net.smartbridge.api.drivers;
 
-public abstract class RedissonDriverConfig implements DriverConfig{
+public class RedissonDriverConfig implements DriverConfig{
 
     private String address, password;
     private int port, database;

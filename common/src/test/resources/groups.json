@@ -1,9 +1,0 @@
-{
-  "groups": [
-    {
-      "name": "test",
-      "templates": ["default"],
-      "minimumServicesOnline": 1
-    }
-  ]
-}

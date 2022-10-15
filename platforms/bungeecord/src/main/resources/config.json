@@ -1,5 +1,8 @@
 {
   "bridge":{
     "linkToken": "asdbavbfauabofbouia"
+  },
+  "balancers":{
+    "lobby": "lobby"
   }
 }

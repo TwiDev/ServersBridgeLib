@@ -8,6 +8,7 @@ import net.smartbridge.api.exceptions.BridgeException;
 import net.smartbridge.api.exceptions.ConfigException;
 import net.smartbridge.api.exceptions.DatabaseException;
 import net.smartbridge.api.groups.ISmartGroup;
+import net.smartbridge.api.servers.ISmartServer;
 import net.smartbridge.api.servers.ServerType;
 import net.smartbridge.api.util.ServerIP;
 import net.smartbridge.common.SmartBridgeImplementation;
@@ -23,9 +24,11 @@ import net.smartbridge.spigot.util.ServerProperties;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Level;
+import java.util.UUID;
 
 public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
+
+    private static CoreSpigot instance;
 
     private SmartBridgeImplementation smartBridgeImplementation;
 
@@ -38,10 +41,14 @@ public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
 
     private String serverName;
 
+    private String group;
+
     private SyncState synchronisationState;
 
     @Override
     public void onEnable() {
+        instance = this;
+
         try {
             this.initServer();
         } catch (BridgeException e) {
@@ -57,7 +64,7 @@ public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
 
         Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
             if(synchronisationState != SyncState.ESTABLISHED) {
-                smartBridgeImplementation.getLogger().error("Synchronization with proxy server failed, try to check if the binding token are the same on both sides in server and proxy configurations");
+                smartBridgeImplementation.getLogger().error("Synchronization with proxy server failed, try to check if the binding token are the same on both sides in server and proxy configurations or that your server is well connected to a redisson database");
                 this.setEnabled(false);
             }
         }, 5 * 20);
@@ -74,8 +81,7 @@ public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
         this.serverType = serverConfig.getServer().getType();
 
         if(serverType == ServerType.BALANCER || serverType == ServerType.DYNAMIC) {
-            String group = serverConfig.getServer().getGroup();
-
+            this.group = serverConfig.getServer().getGroup();
             if(group == null) {
                 throw new ConfigException("the group property is not defined in the server configuration for a BALANCER or DYNAMIC type server");
             }
@@ -85,16 +91,14 @@ public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
             }
 
             ISmartGroup smartGroup = SmartBridgeImplementation.getInstance().getGroupManager().getGroup(group);
-
             this.serverName = group + "-" + smartGroup.getCurrentServices().size() + 1;
         }else{
             this.serverName = serverConfig.getServer().getName();
         }
 
         if(serverName == null || serverName.isEmpty()) {
-            SmartBridgeAPI.getInstance().getLogger().log("Plugin cannot load : Bridge properties are empty in config.json.", Level.SEVERE);
             this.setEnabled(false);
-            return;
+            throw new ConfigException("Plugin cannot load : Bridge properties are empty in config.json.");
         }
 
         if(SmartBridgeImplementation.getInstance().getServerManager().isServerExists(serverName)) {
@@ -166,5 +170,23 @@ public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
 
     public SmartBridgeImplementation getSmartBridgeImplementation() {
         return smartBridgeImplementation;
+    }
+
+    public static CoreSpigot getInstance() {
+        return instance;
+    }
+
+    public void establishSync(UUID uuid) {
+        synchronisationState = SyncState.ESTABLISHED;
+
+        smartBridgeImplementation.getLogger().log("The connection with the proxy has been successfully established, smart server bridge is now operational on this service");
+
+        ISmartServer smartServer = SmartBridgeAPI.getInstance().getServerManager().getServer(uuid);
+        smartServer.setServerIP(serverIP);
+        if(group != null)
+            smartServer.setGroup(group);
+
+        RedissonMessengersManager.sendMessage(StaticsTopics.TO_BUNGEECORD, new RedissonMessage(RedissonMessageType.REGISTER_SERVER, new String[]{smartServer.getUUID().toString()}));
+
     }
 }

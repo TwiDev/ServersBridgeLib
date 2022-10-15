@@ -1,5 +1,6 @@
 package net.smartbridge.common.servers;
 
+import com.google.gson.Gson;
 import net.smartbridge.api.servers.ISmartServer;
 import net.smartbridge.api.servers.ServerType;
 import net.smartbridge.api.util.ServerIP;
@@ -84,6 +85,21 @@ public class SmartServer implements ISmartServer {
         return ServerType.valueOf(
                 serverModel.getString(ServersKey.TYPE)
         );
+    }
+
+    @Override
+    public void setServerIP(ServerIP serverIP) {
+        serverModel.set(ServersKey.IP, new Gson().toJson(serverIP));
+    }
+
+    @Override
+    public void setGroup(String group) {
+        serverModel.set(ServersKey.GROUP, group);
+    }
+
+    @Override
+    public void setServerType(ServerType serverType) {
+        serverModel.set(ServersKey.TYPE, serverType.toString());
     }
 
     @Override

@@ -21,6 +21,12 @@ public interface ISmartServer {
 
     ServerType getServerType();
 
+    void setServerIP(ServerIP serverIP);
+
+    void setGroup(String group);
+
+    void setServerType(ServerType serverType);
+
     long getOnlinePlayers();
 
     boolean isLoaded();

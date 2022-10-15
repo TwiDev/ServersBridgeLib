@@ -5,7 +5,7 @@ import net.smartbridge.api.bridge.ServerSide;
 
 @Getter
 @ConfigInfo(fileName = "config.json", serverSide = ServerSide.BUNGEECORD)
-public class ProxyConfig {
+public class ProxyConfig extends Config<ProxyConfig>{
 
     ServerConfig.BridgeProperties bridgeProperties;
 

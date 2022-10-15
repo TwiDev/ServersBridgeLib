@@ -6,7 +6,8 @@ public enum RedissonMessageType {
     SHUTDOWN_SERVER(StaticsTopics.TO_BUNGEECORD),
     CONFIG(StaticsTopics.TO_BUNGEECORD, StaticsTopics.TO_SPIGOT),
     UNKNOWN(StaticsTopics.BROADCAST),
-    LINK_BUNGEECORD(StaticsTopics.TO_BUNGEECORD);
+    LINK_BUNGEECORD(StaticsTopics.TO_BUNGEECORD),
+    CONFIRM_SYNC_BUNGEECORD(StaticsTopics.TO_SPIGOT);
 
     final StaticsTopics[] serverSides;
 

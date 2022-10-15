@@ -13,8 +13,14 @@ import net.smartbridge.api.util.ServerIP;
 import net.smartbridge.common.SmartBridgeImplementation;
 import net.smartbridge.common.config.DatabasesConfig;
 import net.smartbridge.common.config.ServerConfig;
+import net.smartbridge.common.drivers.redisson.messengers.RedissonMessage;
+import net.smartbridge.common.drivers.redisson.messengers.RedissonMessageType;
+import net.smartbridge.common.drivers.redisson.messengers.RedissonMessengersManager;
+import net.smartbridge.common.drivers.redisson.messengers.StaticsTopics;
 import net.smartbridge.common.util.ToolsFile;
+import net.smartbridge.spigot.redisson.BungeecordMessageListener;
 import net.smartbridge.spigot.util.ServerProperties;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
@@ -32,6 +38,8 @@ public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
 
     private String serverName;
 
+    private SyncState synchronisationState;
+
     @Override
     public void onEnable() {
         try {
@@ -40,7 +48,19 @@ public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
             throw new RuntimeException(e);
         }
 
-        super.onEnable();
+        //Init bungeecord listener
+        new BungeecordMessageListener();
+
+        RedissonMessengersManager.sendMessage(StaticsTopics.TO_BUNGEECORD, new RedissonMessage(RedissonMessageType.LINK_BUNGEECORD, new String[]{serverName, serverConfig.getBridge().getLinkToken()}));
+        smartBridgeImplementation.getLogger().log("Synchronization request to the proxy server in progress, pay attention to the following messages to know if the synchronization is completed");
+        synchronisationState = SyncState.WAITING;
+
+        Bukkit.getScheduler().runTaskLaterAsynchronously(this, () -> {
+            if(synchronisationState != SyncState.ESTABLISHED) {
+                smartBridgeImplementation.getLogger().error("Synchronization with proxy server failed, try to check if the binding token are the same on both sides in server and proxy configurations");
+                this.setEnabled(false);
+            }
+        }, 5 * 20);
     }
 
     @Override
@@ -97,6 +117,26 @@ public class CoreSpigot extends JavaPlugin implements SmartBridgePlugin {
 
         this.smartBridgeImplementation = new SmartBridgeImplementation(this);
 
+    }
+
+    public void setSynchronisationState(SyncState synchronisationState) {
+        this.synchronisationState = synchronisationState;
+    }
+
+    public DatabasesConfig getDatabasesConfig() {
+        return databasesConfig;
+    }
+
+    public ServerConfig getServerConfig() {
+        return serverConfig;
+    }
+
+    public ServerType getServerType() {
+        return serverType;
+    }
+
+    public SyncState getSynchronisationState() {
+        return synchronisationState;
     }
 
     @Override

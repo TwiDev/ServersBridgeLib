@@ -6,6 +6,7 @@ public enum ServerType {
     BALANCER,
     MULTI_ARENA,
     NORMAL,
+    DYNAMIC,
     UNKNOWN
 
 }

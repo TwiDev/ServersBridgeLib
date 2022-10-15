@@ -1,1 +1,10 @@
-
+{
+  "bridge": {
+    "linkToken": "3784638990237"
+  },
+  "server":{
+    "type": "normal",
+    "name": "BedWars-1",
+    "group": "BedWars"
+  }
+}

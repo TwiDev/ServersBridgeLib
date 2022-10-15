@@ -1,6 +1,7 @@
 package net.smartbridge.api;
 
 import net.smartbridge.api.exceptions.BridgeException;
+import net.smartbridge.api.groups.ISmartGroupManager;
 import net.smartbridge.api.servers.ISmartServerManager;
 import net.smartbridge.api.util.BridgeLogger;
 import net.smartbridge.api.util.LibInfo;
@@ -20,6 +21,8 @@ public abstract class SmartBridgeAPI {
     public abstract void initConnections() throws BridgeException;
 
     public abstract ISmartServerManager getServerManager();
+
+    public abstract ISmartGroupManager getGroupManager();
 
     public abstract BridgeLogger getLogger();
 

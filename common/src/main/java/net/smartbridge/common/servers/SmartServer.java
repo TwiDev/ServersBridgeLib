@@ -1,6 +1,5 @@
 package net.smartbridge.common.servers;
 
-import net.smartbridge.api.SmartBridgeAPI;
 import net.smartbridge.api.servers.ISmartServer;
 import net.smartbridge.api.servers.ServerType;
 import net.smartbridge.api.util.ServerIP;
@@ -28,11 +27,11 @@ public class SmartServer implements ISmartServer {
                     redissonClient.getMap(serversMap).get(uniqueName).toString()
             );
 
-            this.serverModel = new RedissonModel<>(ServersKey.class, uuid, redissonClient);
+            this.serverModel = new RedissonModel<>(ServersKey.class, uuid.toString(), redissonClient);
         }else{
             this.uuid = UUID.randomUUID();
 
-            this.serverModel = new RedissonModel<>(ServersKey.class, uuid, new HashMap<ServersKey, Object>(){{
+            this.serverModel = new RedissonModel<>(ServersKey.class, uuid.toString(), new HashMap<ServersKey, Object>(){{
                 put(ServersKey.UUID, uuid.toString());
                 put(ServersKey.NAME, uniqueName);
                 put(ServersKey.PLAYERS, 0);

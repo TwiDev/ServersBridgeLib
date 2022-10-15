@@ -19,7 +19,7 @@ public class RedissonModel<E> {
     private final Class<E> redisKey;
 
     @Getter
-    private final UUID uuid;
+    private final String uuid;
 
     @Getter
     private final String path;
@@ -30,11 +30,11 @@ public class RedissonModel<E> {
     @Getter
     private boolean exists = true;
 
-    public RedissonModel(final Class<E> redisKey, final UUID uuid, final RedissonClient driver) {
+    public RedissonModel(final Class<E> redisKey, final String uuid, final RedissonClient driver) {
         this(redisKey, uuid, null, driver);
     }
 
-    public RedissonModel(final Class<E> redisKey, final UUID uuid, HashMap<E, Object> values, final RedissonClient driver) {
+    public RedissonModel(final Class<E> redisKey, final String uuid, HashMap<E, Object> values, final RedissonClient driver) {
         this.redisKey = redisKey;
         this.uuid = uuid;
 
@@ -52,7 +52,7 @@ public class RedissonModel<E> {
         }
 
         this.connection = driver;
-        this.path = name + uuid.toString() + PATH_SEPARATOR;
+        this.path = name + uuid + PATH_SEPARATOR;
 
         if(values != null) {
             values.forEach((e, o) -> {

@@ -6,6 +6,8 @@ import net.smartbridge.api.util.ServerIP;
 
 public interface SmartBridgePlugin {
 
+    void initServer();
+
     ServerSide getPluginSide();
 
     String getServerName();

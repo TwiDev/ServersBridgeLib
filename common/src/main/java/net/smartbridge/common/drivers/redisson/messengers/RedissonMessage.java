@@ -1,14 +1,21 @@
 package net.smartbridge.common.drivers.redisson.messengers;
 
-public abstract class RedissonMessage {
+public class RedissonMessage {
 
-    private final String test;
+    private final RedissonMessageType redissonMessageType;
 
-    public RedissonMessage(String test) {
-        this.test = test;
+    private final String[] data;
+
+    public RedissonMessage(RedissonMessageType redissonMessageType, String[] data) {
+        this.redissonMessageType = redissonMessageType;
+        this.data = data;
     }
 
-    public String getTest() {
-        return test;
+    public RedissonMessageType getRedissonMessageType() {
+        return redissonMessageType;
+    }
+
+    public String[] getData() {
+        return data;
     }
 }

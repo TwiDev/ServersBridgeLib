@@ -1,0 +1,5 @@
+name: SmartServersBridge
+version: 1.0.0.0
+author: TwiDev
+prefix: SmartServersBridge
+main: net.smartbridge.bungeecord.CoreProxy

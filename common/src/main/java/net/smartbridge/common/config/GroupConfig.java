@@ -10,6 +10,10 @@ public class GroupConfig extends Config<GroupConfig> {
 
     List<GroupObject> groups = new ArrayList<>();
 
+    public List<GroupObject> getGroups() {
+        return groups;
+    }
+
     public static class GroupObject {
 
         private final String name;

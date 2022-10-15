@@ -3,6 +3,7 @@ package net.smartbridge.common;
 import net.smartbridge.api.SmartBridgeAPI;
 import net.smartbridge.api.SmartBridgePlugin;
 import net.smartbridge.api.exceptions.BridgeException;
+import net.smartbridge.api.groups.ISmartGroupManager;
 import net.smartbridge.api.servers.ISmartServerManager;
 import net.smartbridge.api.util.BridgeLogger;
 import net.smartbridge.api.util.LibInfo;
@@ -57,6 +58,11 @@ public class SmartBridgeImplementation extends SmartBridgeAPI {
     @Override
     public ISmartServerManager getServerManager() {
         return smartServerManager;
+    }
+
+    @Override
+    public ISmartGroupManager getGroupManager() {
+        return null;
     }
 
     @Override
